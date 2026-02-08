@@ -1,0 +1,424 @@
+2026-02-08 17:28:56,885 - ATTACK: ML Detected Attack - Source IP: 192.168.1.39 - Details: {'src_ip': '192.168.1.39', 'dst_ip': '3.151.217.134', 'protocol': 6, 'src_port': 57908, 'dst_port': 443, 'flags': <Flag 16 (A)>}
+2026-02-08 17:29:10,838 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\error.py', reloading
+2026-02-08 17:29:10,841 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\logging\\__init__.py', reloading
+2026-02-08 17:29:10,845 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\layers\\l2.py', reloading
+2026-02-08 17:29:10,848 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\fields.py', reloading
+2026-02-08 17:29:10,851 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\packet.py', reloading
+2026-02-08 17:29:10,851 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\arch\\libpcap.py', reloading
+2026-02-08 17:29:10,852 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\sendrecv.py', reloading
+2026-02-08 17:29:11,494 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:29:14,198 -  * Debugger is active!
+2026-02-08 17:29:14,218 -  * Debugger PIN: 279-335-536
+2026-02-08 17:29:31,582 - ATTACK: ML Detected Attack - Source IP: 104.18.39.21 - Details: {'src_ip': '104.18.39.21', 'dst_ip': '192.168.1.39', 'protocol': 6, 'src_port': 443, 'dst_port': 61011, 'flags': <Flag 24 (PA)>}
+2026-02-08 17:31:00,447 -  * Detected change in 'C:\\projects\\idps\\test_tcp.py', reloading
+2026-02-08 17:31:00,448 -  * Detected change in 'C:\\projects\\idps\\test_tcp.py', reloading
+2026-02-08 17:31:01,031 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:31:03,816 -  * Debugger is active!
+2026-02-08 17:31:03,822 -  * Debugger PIN: 279-335-536
+2026-02-08 17:31:44,120 -  * Detected change in 'C:\\projects\\idps\\test_tcp.py', reloading
+2026-02-08 17:31:44,120 -  * Detected change in 'C:\\projects\\idps\\test_tcp.py', reloading
+2026-02-08 17:31:44,121 -  * Detected change in 'C:\\projects\\idps\\test_tcp.py', reloading
+2026-02-08 17:31:45,456 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:31:48,327 -  * Debugger is active!
+2026-02-08 17:31:48,334 -  * Debugger PIN: 279-335-536
+2026-02-08 17:31:51,575 - ATTACK: ML Detected Attack - Source IP: 104.18.39.21 - Details: {'src_ip': '104.18.39.21', 'dst_ip': '192.168.1.39', 'protocol': 6, 'src_port': 443, 'dst_port': 61011, 'flags': <Flag 24 (PA)>}
+2026-02-08 17:33:26,709 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\all.py', reloading
+2026-02-08 17:33:26,715 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\base_classes.py', reloading
+2026-02-08 17:33:26,727 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\config.py', reloading
+2026-02-08 17:33:26,756 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\dadict.py', reloading
+2026-02-08 17:33:26,761 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\data.py', reloading
+2026-02-08 17:33:26,786 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\themes.py', reloading
+2026-02-08 17:33:26,794 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\arch\\__init__.py', reloading
+2026-02-08 17:33:26,797 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\arch\\linux\\__init__.py', reloading
+2026-02-08 17:33:26,805 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\arch\\bpf\\core.py', reloading
+2026-02-08 17:33:26,809 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\arch\\bpf\\supersocket.py', reloading
+2026-02-08 17:33:26,815 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\arch\\solaris.py', reloading
+2026-02-08 17:33:26,825 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\arch\\unix.py', reloading
+2026-02-08 17:33:26,831 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\arch\\windows\\__init__.py', reloading
+2026-02-08 17:33:26,846 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\arch\\windows\\native.py', reloading
+2026-02-08 17:33:26,850 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\interfaces.py', reloading
+2026-02-08 17:33:26,862 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\plist.py', reloading
+2026-02-08 17:33:26,962 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\asn1fields.py', reloading
+2026-02-08 17:33:26,977 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\asn1packet.py', reloading
+2026-02-08 17:33:26,979 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\utils.py', reloading
+2026-02-08 17:33:27,017 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\route.py', reloading
+2026-02-08 17:33:27,041 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\sessions.py', reloading
+2026-02-08 17:33:27,046 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\supersocket.py', reloading
+2026-02-08 17:33:27,054 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\volatile.py', reloading
+2026-02-08 17:33:27,070 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\as_resolvers.py', reloading
+2026-02-08 17:33:27,074 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\automaton.py', reloading
+2026-02-08 17:33:27,098 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\autorun.py', reloading
+2026-02-08 17:33:27,102 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\main.py', reloading
+2026-02-08 17:33:27,116 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\consts.py', reloading
+2026-02-08 17:33:27,118 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\layers\\all.py', reloading
+2026-02-08 17:33:27,120 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\asn1\\asn1.py', reloading
+2026-02-08 17:33:27,132 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\asn1\\ber.py', reloading
+2026-02-08 17:33:27,142 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\asn1\\mib.py', reloading
+2026-02-08 17:33:27,150 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\pipetool.py', reloading
+2026-02-08 17:33:27,161 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\scapypipes.py', reloading
+2026-02-08 17:33:27,170 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\utils6.py', reloading
+2026-02-08 17:33:27,183 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\route6.py', reloading
+2026-02-08 17:33:27,189 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\ansmachine.py', reloading
+2026-02-08 17:33:27,266 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\__init__.py', reloading
+2026-02-08 17:33:27,269 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\asn1\\__init__.py', reloading
+2026-02-08 17:33:27,274 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\compat.py', reloading
+2026-02-08 17:33:28,153 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:33:31,024 -  * Debugger is active!
+2026-02-08 17:33:31,030 -  * Debugger PIN: 279-335-536
+2026-02-08 17:33:51,477 - ATTACK: ML Detected Attack - Source IP: 3.150.88.196 - Details: {'src_ip': '3.150.88.196', 'dst_ip': '192.168.1.39', 'protocol': 6, 'src_port': 443, 'dst_port': 54600, 'flags': <Flag 16 (A)>}
+2026-02-08 17:34:38,541 -  * Detected change in 'C:\\projects\\idps\\modules\\sniffing.py', reloading
+2026-02-08 17:34:38,541 -  * Detected change in 'C:\\projects\\idps\\modules\\sniffing.py', reloading
+2026-02-08 17:34:38,541 -  * Detected change in 'C:\\projects\\idps\\modules\\sniffing.py', reloading
+2026-02-08 17:34:39,727 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:34:42,345 -  * Debugger is active!
+2026-02-08 17:34:42,351 -  * Debugger PIN: 279-335-536
+2026-02-08 17:35:18,457 -  * Detected change in 'C:\\projects\\idps\\modules\\sniffing.py', reloading
+2026-02-08 17:35:18,458 -  * Detected change in 'C:\\projects\\idps\\modules\\sniffing.py', reloading
+2026-02-08 17:35:19,092 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:35:22,039 -  * Debugger is active!
+2026-02-08 17:35:22,050 -  * Debugger PIN: 279-335-536
+2026-02-08 17:35:25,071 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:35:25,074 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:35:25,077 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:35:26,535 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:35:29,362 -  * Debugger is active!
+2026-02-08 17:35:29,368 -  * Debugger PIN: 279-335-536
+2026-02-08 17:35:45,160 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:35:48,046 -  * Debugger is active!
+2026-02-08 17:35:48,052 -  * Debugger PIN: 279-335-536
+2026-02-08 17:37:30,647 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:37:30,647 -  * Detected change in 'C:\\projects\\idps\\modules\\sniffing.py', reloading
+2026-02-08 17:37:30,647 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:37:30,648 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:37:30,648 -  * Detected change in 'C:\\projects\\idps\\modules\\sniffing.py', reloading
+2026-02-08 17:37:31,930 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:37:34,752 -  * Debugger is active!
+2026-02-08 17:37:34,758 -  * Debugger PIN: 279-335-536
+2026-02-08 17:38:29,903 -  * Detected change in 'C:\\projects\\idps\\modules\\sniffing.py', reloading
+2026-02-08 17:38:29,903 -  * Detected change in 'C:\\projects\\idps\\modules\\sniffing.py', reloading
+2026-02-08 17:38:30,529 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:38:33,378 -  * Debugger is active!
+2026-02-08 17:38:33,384 -  * Debugger PIN: 279-335-536
+2026-02-08 17:38:37,077 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:38:37,077 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:38:37,078 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:38:37,926 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:38:40,846 -  * Debugger is active!
+2026-02-08 17:38:40,852 -  * Debugger PIN: 279-335-536
+2026-02-08 17:38:43,529 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\flask\\__init__.py', reloading
+2026-02-08 17:38:43,535 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\flask\\app.py', reloading
+2026-02-08 17:38:43,564 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\flask\\sansio\\app.py', reloading
+2026-02-08 17:38:43,584 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\flask\\sansio\\scaffold.py', reloading
+2026-02-08 17:38:43,596 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\flask\\templating.py', reloading
+2026-02-08 17:38:43,602 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\jinja2\\__init__.py', reloading
+2026-02-08 17:38:43,606 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\jinja2\\environment.py', reloading
+2026-02-08 17:38:43,654 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\flask\\json\\__init__.py', reloading
+2026-02-08 17:38:43,659 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\flask\\wrappers.py', reloading
+2026-02-08 17:38:43,672 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\werkzeug\\wrappers\\__init__.py', reloading
+2026-02-08 17:38:43,678 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\werkzeug\\wrappers\\response.py', reloading
+2026-02-08 17:38:43,714 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\werkzeug\\sansio\\response.py', reloading
+2026-02-08 17:38:43,726 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\flask\\globals.py', reloading
+2026-02-08 17:38:43,731 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\werkzeug\\wrappers\\request.py', reloading
+2026-02-08 17:38:43,746 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\werkzeug\\sansio\\request.py', reloading
+2026-02-08 17:38:43,765 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\flask\\helpers.py', reloading
+2026-02-08 17:38:43,821 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\flask\\config.py', reloading
+2026-02-08 17:38:44,634 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:38:47,620 -  * Debugger is active!
+2026-02-08 17:38:47,627 -  * Debugger PIN: 279-335-536
+2026-02-08 17:38:49,159 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:38:49,159 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:38:50,150 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:38:52,927 -  * Debugger is active!
+2026-02-08 17:38:52,933 -  * Debugger PIN: 279-335-536
+2026-02-08 17:39:16,792 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:39:19,517 -  * Debugger is active!
+2026-02-08 17:39:19,523 -  * Debugger PIN: 279-335-536
+2026-02-08 17:42:43,936 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:42:43,936 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:42:44,696 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:42:47,474 -  * Debugger is active!
+2026-02-08 17:42:47,480 -  * Debugger PIN: 279-335-536
+2026-02-08 17:42:49,201 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:42:49,201 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:42:49,213 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:42:49,938 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:42:52,894 -  * Debugger is active!
+2026-02-08 17:42:52,900 -  * Debugger PIN: 279-335-536
+2026-02-08 17:42:54,007 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:42:54,007 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:42:55,363 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:42:58,092 -  * Debugger is active!
+2026-02-08 17:42:58,098 -  * Debugger PIN: 279-335-536
+2026-02-08 17:43:07,947 -  * Detected change in 'C:\\projects\\idps\\modules\\sniffing.py', reloading
+2026-02-08 17:43:07,948 -  * Detected change in 'C:\\projects\\idps\\modules\\sniffing.py', reloading
+2026-02-08 17:43:07,948 -  * Detected change in 'C:\\projects\\idps\\modules\\sniffing.py', reloading
+2026-02-08 17:43:08,671 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:43:11,535 -  * Debugger is active!
+2026-02-08 17:43:11,541 -  * Debugger PIN: 279-335-536
+2026-02-08 17:44:10,965 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:44:13,973 -  * Debugger is active!
+2026-02-08 17:44:13,980 -  * Debugger PIN: 279-335-536
+2026-02-08 17:44:16,307 - ATTACK: ML Detected Attack - Source IP: 192.168.1.39 - Details: {'src_ip': '192.168.1.39', 'dst_ip': '3.151.217.134', 'protocol': 6, 'src_port': 50899, 'dst_port': 443, 'flags': <Flag 16 (A)>}
+2026-02-08 17:45:18,535 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\flask_socketio\\__init__.py', reloading
+2026-02-08 17:45:19,623 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:45:22,455 -  * Debugger is active!
+2026-02-08 17:45:22,461 -  * Debugger PIN: 279-335-536
+2026-02-08 17:45:36,698 - ATTACK: ML Detected Attack - Source IP: 192.168.1.39 - Details: {'src_ip': '192.168.1.39', 'dst_ip': '3.139.247.43', 'protocol': 6, 'src_port': 60383, 'dst_port': 443, 'flags': <Flag 16 (A)>}
+2026-02-08 17:47:00,637 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:47:00,641 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:47:01,681 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:47:59,398 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:48:02,077 -  * Debugger is active!
+2026-02-08 17:48:02,083 -  * Debugger PIN: 279-335-536
+2026-02-08 17:48:08,176 - ATTACK: ML Detected Attack - Source IP: 192.168.1.39 - Details: {'src_ip': '192.168.1.39', 'dst_ip': '192.178.202.99', 'protocol': 17, 'src_port': 53245, 'dst_port': 443}
+2026-02-08 17:51:11,245 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:51:11,245 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:51:11,250 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:51:12,187 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:51:14,975 -  * Debugger is active!
+2026-02-08 17:51:14,981 -  * Debugger PIN: 279-335-536
+2026-02-08 17:51:33,218 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\socket.py', reloading
+2026-02-08 17:51:34,543 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:51:37,326 -  * Debugger is active!
+2026-02-08 17:51:37,331 -  * Debugger PIN: 279-335-536
+2026-02-08 17:51:42,521 - ATTACK: ML Detected Attack - Source IP: 140.82.113.22 - Details: {'src_ip': '140.82.113.22', 'dst_ip': '192.168.1.39', 'protocol': 6, 'src_port': 443, 'dst_port': 52157, 'flags': <Flag 16 (A)>}
+2026-02-08 17:51:46,621 - ATTACK: ML Detected Attack - Source IP: 192.168.1.39 - Details: {'src_ip': '192.168.1.39', 'dst_ip': '3.139.247.43', 'protocol': 6, 'src_port': 59714, 'dst_port': 443, 'flags': <Flag 16 (A)>}
+2026-02-08 17:52:49,266 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:52:52,120 -  * Debugger is active!
+2026-02-08 17:52:52,128 -  * Debugger PIN: 279-335-536
+2026-02-08 17:52:55,376 - ATTACK: ML Detected Attack - Source IP: 20.44.10.123 - Details: {'src_ip': '20.44.10.123', 'dst_ip': '192.168.1.39', 'protocol': 6, 'src_port': 443, 'dst_port': 53063, 'flags': <Flag 16 (A)>}
+2026-02-08 17:52:58,831 - ATTACK: ML Detected Attack - Source IP: 192.168.1.39 - Details: {'src_ip': '192.168.1.39', 'dst_ip': '192.168.1.1', 'protocol': 17, 'src_port': 137, 'dst_port': 137}
+2026-02-08 17:55:00,783 - ATTACK: ML Detected Attack - Source IP: 192.168.1.39 - Details: {'src_ip': '192.168.1.39', 'dst_ip': '3.139.247.43', 'protocol': 6, 'src_port': 52938, 'dst_port': 443, 'flags': <Flag 16 (A)>}
+2026-02-08 17:55:05,356 - ATTACK: ML Detected Attack - Source IP: 192.168.1.39 - Details: {'src_ip': '192.168.1.39', 'dst_ip': '3.139.247.43', 'protocol': 6, 'src_port': 52938, 'dst_port': 443, 'flags': <Flag 16 (A)>}
+2026-02-08 17:55:13,736 - ATTACK: ML Detected Attack - Source IP: 192.168.1.39 - Details: {'src_ip': '192.168.1.39', 'dst_ip': '3.139.247.43', 'protocol': 6, 'src_port': 52938, 'dst_port': 443, 'flags': <Flag 16 (A)>}
+2026-02-08 17:55:21,665 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:55:24,434 -  * Debugger is active!
+2026-02-08 17:55:24,440 -  * Debugger PIN: 279-335-536
+2026-02-08 17:55:31,056 - ATTACK: ML Detected Attack - Source IP: 18.245.31.89 - Details: {'src_ip': '18.245.31.89', 'dst_ip': '192.168.1.39', 'protocol': 6, 'src_port': 443, 'dst_port': 58180, 'flags': <Flag 17 (FA)>}
+2026-02-08 17:57:19,807 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:57:19,807 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:57:19,808 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:57:20,609 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:57:23,802 -  * Debugger is active!
+2026-02-08 17:57:23,808 -  * Debugger PIN: 279-335-536
+2026-02-08 17:57:27,880 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:57:27,881 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:57:29,280 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:57:32,102 -  * Debugger is active!
+2026-02-08 17:57:32,112 -  * Debugger PIN: 279-335-536
+2026-02-08 17:57:32,196 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:57:32,197 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:57:33,614 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:57:36,371 -  * Debugger is active!
+2026-02-08 17:57:36,377 -  * Debugger PIN: 279-335-536
+2026-02-08 17:57:39,564 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:57:39,564 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:57:40,911 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:57:43,736 -  * Debugger is active!
+2026-02-08 17:57:43,742 -  * Debugger PIN: 279-335-536
+2026-02-08 17:57:46,058 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\traceback.py', reloading
+2026-02-08 17:57:47,281 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:57:50,084 -  * Debugger is active!
+2026-02-08 17:57:50,090 -  * Debugger PIN: 279-335-536
+2026-02-08 17:58:05,840 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:58:08,663 -  * Debugger is active!
+2026-02-08 17:58:08,670 -  * Debugger PIN: 279-335-536
+2026-02-08 17:58:15,570 - ATTACK: ML Detected Attack - Source IP: 192.168.1.39 - Details: {'src_ip': '192.168.1.39', 'dst_ip': '74.125.143.188', 'protocol': 6, 'src_port': 52142, 'dst_port': 5228, 'flags': <Flag 16 (A)>}
+2026-02-08 17:59:18,742 - ATTACK: ML Detected Attack - Source IP: 140.82.113.22 - Details: {'src_ip': '140.82.113.22', 'dst_ip': '192.168.1.39', 'protocol': 6, 'src_port': 443, 'dst_port': 65075, 'flags': <Flag 24 (PA)>}
+2026-02-08 17:59:29,275 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:59:29,276 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:59:30,434 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:59:33,299 -  * Debugger is active!
+2026-02-08 17:59:33,305 -  * Debugger PIN: 279-335-536
+2026-02-08 17:59:34,084 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:59:34,085 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:59:34,098 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:59:34,885 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:59:37,885 -  * Debugger is active!
+2026-02-08 17:59:37,892 -  * Debugger PIN: 279-335-536
+2026-02-08 17:59:38,424 - ATTACK: ML Detected Attack - Source IP: 140.82.113.22 - Details: {'src_ip': '140.82.113.22', 'dst_ip': '192.168.1.39', 'protocol': 6, 'src_port': 443, 'dst_port': 65075, 'flags': <Flag 16 (A)>}
+2026-02-08 17:59:43,239 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:59:43,240 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:59:44,390 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:59:47,238 -  * Debugger is active!
+2026-02-08 17:59:47,244 -  * Debugger PIN: 279-335-536
+2026-02-08 17:59:47,649 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:59:47,650 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 17:59:48,777 -  * Restarting with watchdog (windowsapi)
+2026-02-08 17:59:51,889 -  * Debugger is active!
+2026-02-08 17:59:51,895 -  * Debugger PIN: 279-335-536
+2026-02-08 17:59:57,058 - ATTACK: ML Detected Attack - Source IP: 192.168.1.39 - Details: {'src_ip': '192.168.1.39', 'dst_ip': '216.150.16.129', 'protocol': 6, 'src_port': 63482, 'dst_port': 443, 'flags': <Flag 16 (A)>}
+2026-02-08 18:00:26,473 -  * Restarting with watchdog (windowsapi)
+2026-02-08 18:00:29,183 -  * Debugger is active!
+2026-02-08 18:00:29,189 -  * Debugger PIN: 279-335-536
+2026-02-08 18:00:41,680 - ATTACK: ML Detected Attack - Source IP: 192.168.1.39 - Details: {'src_ip': '192.168.1.39', 'dst_ip': '3.150.88.196', 'protocol': 6, 'src_port': 58416, 'dst_port': 443, 'flags': <Flag 16 (A)>}
+2026-02-08 18:01:57,904 - ATTACK: ML Detected Attack - Source IP: 192.168.1.39 - Details: {'src_ip': '192.168.1.39', 'dst_ip': '3.150.88.196', 'protocol': 6, 'src_port': 54863, 'dst_port': 443, 'flags': <Flag 16 (A)>}
+2026-02-08 18:02:03,757 - ATTACK: ML Detected Attack - Source IP: 3.150.88.196 - Details: {'src_ip': '3.150.88.196', 'dst_ip': '192.168.1.39', 'protocol': 6, 'src_port': 443, 'dst_port': 54863, 'flags': <Flag 16 (A)>}
+2026-02-08 18:02:57,904 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\pickle.py', reloading
+2026-02-08 18:02:58,003 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\os.py', reloading
+2026-02-08 18:02:58,079 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\sklearn\\ensemble\\_forest.py', reloading
+2026-02-08 18:02:58,303 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\sklearn\\model_selection\\_split.py', reloading
+2026-02-08 18:02:58,446 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\sklearn\\preprocessing\\_data.py', reloading
+2026-02-08 18:02:59,240 -  * Restarting with watchdog (windowsapi)
+2026-02-08 18:03:02,049 -  * Debugger is active!
+2026-02-08 18:03:02,055 -  * Debugger PIN: 279-335-536
+2026-02-08 18:03:07,077 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\sklearn\\base.py', reloading
+2026-02-08 18:03:07,085 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\sklearn\\utils\\_set_output.py', reloading
+2026-02-08 18:03:07,091 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\sklearn\\utils\\_estimator_html_repr.py', reloading
+2026-02-08 18:03:07,107 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\sklearn\\utils\\_metadata_requests.py', reloading
+2026-02-08 18:03:08,552 -  * Restarting with watchdog (windowsapi)
+2026-02-08 18:03:11,417 -  * Debugger is active!
+2026-02-08 18:03:11,423 -  * Debugger PIN: 279-335-536
+2026-02-08 18:05:16,436 -  * Restarting with watchdog (windowsapi)
+2026-02-08 18:05:19,308 -  * Debugger is active!
+2026-02-08 18:05:19,316 -  * Debugger PIN: 279-335-536
+2026-02-08 18:05:22,277 - ATTACK: ML Detected Attack - Source IP: 20.42.73.25 - Details: {'src_ip': '20.42.73.25', 'dst_ip': '192.168.1.39', 'protocol': 6, 'src_port': 443, 'dst_port': 65252, 'flags': <Flag 24 (PA)>}
+2026-02-08 18:06:45,503 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 18:06:45,504 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 18:06:45,512 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 18:06:46,198 -  * Restarting with watchdog (windowsapi)
+2026-02-08 18:06:48,918 -  * Debugger is active!
+2026-02-08 18:06:48,925 -  * Debugger PIN: 279-335-536
+2026-02-08 18:06:54,776 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 18:06:54,784 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 18:06:54,784 -  * Detected change in 'C:\\projects\\idps\\app.py', reloading
+2026-02-08 18:06:55,416 -  * Restarting with watchdog (windowsapi)
+2026-02-08 18:06:58,079 -  * Debugger is active!
+2026-02-08 18:06:58,087 -  * Debugger PIN: 279-335-536
+2026-02-08 18:07:40,540 -  * Restarting with watchdog (windowsapi)
+2026-02-08 18:07:43,434 -  * Debugger is active!
+2026-02-08 18:07:43,440 -  * Debugger PIN: 279-335-536
+2026-02-08 18:07:46,932 - ATTACK: ML Detected Attack - Source IP: 140.82.113.22 - Details: {'src_ip': '140.82.113.22', 'dst_ip': '192.168.1.39', 'protocol': 6, 'src_port': 443, 'dst_port': 53815, 'flags': <Flag 16 (A)>}
+2026-02-08 18:08:43,532 - ATTACK: ML Detected Attack - Source IP: 192.168.1.39 - Details: {'src_ip': '192.168.1.39', 'dst_ip': '185.199.108.133', 'protocol': 6, 'src_port': 63845, 'dst_port': 443, 'flags': <Flag 16 (A)>}
+2026-02-08 18:10:09,311 -  * Restarting with watchdog (windowsapi)
+2026-02-08 18:10:11,993 -  * Debugger is active!
+2026-02-08 18:10:12,003 -  * Debugger PIN: 279-335-536
+2026-02-08 18:10:21,707 - ATTACK: ML Detected Attack - Source IP: 52.168.112.66 - Details: {'src_ip': '52.168.112.66', 'dst_ip': '192.168.1.39', 'protocol': 6, 'src_port': 443, 'dst_port': 55704, 'flags': <Flag 16 (A)>}
+2026-02-08 18:13:21,563 -  * Restarting with watchdog (windowsapi)
+2026-02-08 18:13:24,204 -  * Debugger is active!
+2026-02-08 18:13:24,210 -  * Debugger PIN: 279-335-536
+2026-02-08 18:13:31,857 - ATTACK: ML Detected Attack - Source IP: 192.168.1.39 - Details: {'src_ip': '192.168.1.39', 'dst_ip': '3.151.217.134', 'protocol': 6, 'src_port': 58156, 'dst_port': 443, 'flags': <Flag 16 (A)>}
+2026-02-08 18:50:04,210 -  * Detected change in 'C:\\projects\\idps\\modules\\detection.py', reloading
+2026-02-08 18:50:04,212 -  * Detected change in 'C:\\projects\\idps\\modules\\logger.py', reloading
+2026-02-08 18:50:04,213 -  * Detected change in 'C:\\projects\\idps\\modules\\prevention.py', reloading
+2026-02-08 18:50:04,249 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\all.py', reloading
+2026-02-08 18:50:04,258 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\base_classes.py', reloading
+2026-02-08 18:50:04,259 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\config.py', reloading
+2026-02-08 18:50:04,260 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\dadict.py', reloading
+2026-02-08 18:50:04,261 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\data.py', reloading
+2026-02-08 18:50:04,261 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\error.py', reloading
+2026-02-08 18:50:04,264 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\themes.py', reloading
+2026-02-08 18:50:04,269 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\arch\\__init__.py', reloading
+2026-02-08 18:50:04,280 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\arch\\libpcap.py', reloading
+2026-02-08 18:50:04,283 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\arch\\solaris.py', reloading
+2026-02-08 18:50:04,291 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\arch\\unix.py', reloading
+2026-02-08 18:50:04,295 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\arch\\linux\\__init__.py', reloading
+2026-02-08 18:50:04,298 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\arch\\windows\\__init__.py', reloading
+2026-02-08 18:50:04,305 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\interfaces.py', reloading
+2026-02-08 18:50:04,308 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\plist.py', reloading
+2026-02-08 18:50:04,310 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\fields.py', reloading
+2026-02-08 18:50:04,313 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\packet.py', reloading
+2026-02-08 18:50:04,314 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\asn1fields.py', reloading
+2026-02-08 18:50:04,315 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\asn1packet.py', reloading
+2026-02-08 18:50:04,317 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\utils.py', reloading
+2026-02-08 18:50:04,320 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\route.py', reloading
+2026-02-08 18:50:04,321 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\sendrecv.py', reloading
+2026-02-08 18:50:04,322 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\sessions.py', reloading
+2026-02-08 18:50:04,324 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\supersocket.py', reloading
+2026-02-08 18:50:04,324 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\volatile.py', reloading
+2026-02-08 18:50:04,325 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\as_resolvers.py', reloading
+2026-02-08 18:50:04,327 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\automaton.py', reloading
+2026-02-08 18:50:04,328 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\autorun.py', reloading
+2026-02-08 18:50:04,331 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\main.py', reloading
+2026-02-08 18:50:04,332 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\consts.py', reloading
+2026-02-08 18:50:04,333 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\compat.py', reloading
+2026-02-08 18:50:04,335 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\layers\\all.py', reloading
+2026-02-08 18:50:04,339 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\asn1\\asn1.py', reloading
+2026-02-08 18:50:04,341 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\asn1\\ber.py', reloading
+2026-02-08 18:50:04,344 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\asn1\\mib.py', reloading
+2026-02-08 18:50:04,345 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\pipetool.py', reloading
+2026-02-08 18:50:04,346 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\scapypipes.py', reloading
+2026-02-08 18:50:04,347 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\utils6.py', reloading
+2026-02-08 18:50:04,348 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\route6.py', reloading
+2026-02-08 18:50:04,349 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\ansmachine.py', reloading
+2026-02-08 18:50:04,355 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\__init__.py', reloading
+2026-02-08 18:50:04,356 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\asn1\\__init__.py', reloading
+2026-02-08 18:50:04,357 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\arch\\bpf\\supersocket.py', reloading
+2026-02-08 18:50:04,358 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\arch\\windows\\native.py', reloading
+2026-02-08 18:50:04,360 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\arch\\bpf\\core.py', reloading
+2026-02-08 18:50:04,369 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\flask\\__init__.py', reloading
+2026-02-08 18:50:04,373 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\flask\\json\\__init__.py', reloading
+2026-02-08 18:50:04,374 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\flask\\app.py', reloading
+2026-02-08 18:50:04,374 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\flask\\globals.py', reloading
+2026-02-08 18:50:04,375 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\flask\\helpers.py', reloading
+2026-02-08 18:50:04,376 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\flask\\templating.py', reloading
+2026-02-08 18:50:04,376 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\flask\\wrappers.py', reloading
+2026-02-08 18:50:04,378 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\werkzeug\\datastructures\\__init__.py', reloading
+2026-02-08 18:50:04,378 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\werkzeug\\wrappers\\__init__.py', reloading
+2026-02-08 18:50:04,379 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\flask\\typing.py', reloading
+2026-02-08 18:50:04,380 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\flask\\sansio\\app.py', reloading
+2026-02-08 18:50:04,381 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\flask\\sansio\\scaffold.py', reloading
+2026-02-08 18:50:04,385 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\jinja2\\__init__.py', reloading
+2026-02-08 18:50:04,391 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\jinja2\\environment.py', reloading
+2026-02-08 18:50:04,392 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\werkzeug\\wrappers\\request.py', reloading
+2026-02-08 18:50:04,392 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\werkzeug\\wrappers\\response.py', reloading
+2026-02-08 18:50:04,394 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\werkzeug\\sansio\\response.py', reloading
+2026-02-08 18:50:04,395 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\flask_socketio\\__init__.py', reloading
+2026-02-08 18:50:04,409 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\werkzeug\\datastructures\\headers.py', reloading
+2026-02-08 18:50:04,412 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\werkzeug\\sansio\\request.py', reloading
+2026-02-08 18:50:04,418 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scipy\\sparse\\__init__.py', reloading
+2026-02-08 18:50:04,420 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scipy\\sparse\\_csr.py', reloading
+2026-02-08 18:50:04,455 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\numpy\\typing\\__init__.py', reloading
+2026-02-08 18:50:04,456 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\numpy\\_typing\\__init__.py', reloading
+2026-02-08 18:50:04,456 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\numpy\\_typing\\_nested_sequence.py', reloading
+2026-02-08 18:50:04,457 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\numpy\\_typing\\_nbit_base.py', reloading
+2026-02-08 18:50:04,457 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\numpy\\_typing\\_scalars.py', reloading
+2026-02-08 18:50:04,457 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\numpy\\_typing\\_shape.py', reloading
+2026-02-08 18:50:04,458 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\numpy\\_typing\\_dtype_like.py', reloading
+2026-02-08 18:50:04,458 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\numpy\\_typing\\_array_like.py', reloading
+2026-02-08 18:50:04,461 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scipy\\sparse\\_base.py', reloading
+2026-02-08 18:50:04,462 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scipy\\sparse\\_csc.py', reloading
+2026-02-08 18:50:04,463 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scipy\\sparse\\_lil.py', reloading
+2026-02-08 18:50:04,464 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scipy\\sparse\\_dok.py', reloading
+2026-02-08 18:50:04,471 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scipy\\sparse\\_coo.py', reloading
+2026-02-08 18:50:04,472 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scipy\\sparse\\_dia.py', reloading
+2026-02-08 18:50:04,473 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scipy\\sparse\\_bsr.py', reloading
+2026-02-08 18:50:04,474 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scipy\\sparse\\_construct.py', reloading
+2026-02-08 18:50:04,475 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scipy\\sparse\\_extract.py', reloading
+2026-02-08 18:50:04,475 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scipy\\sparse\\_matrix.py', reloading
+2026-02-08 18:50:04,476 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scipy\\sparse\\_matrix_io.py', reloading
+2026-02-08 18:50:10,171 -  * Restarting with watchdog (windowsapi)
+2026-02-08 18:50:15,399 -  * Debugger is active!
+2026-02-08 18:50:15,406 -  * Debugger PIN: 279-335-536
+2026-02-08 20:31:55,119 -  * Detected change in 'C:\\projects\\idps\\setup.py', reloading
+2026-02-08 20:31:55,143 -  * Detected change in 'C:\\projects\\idps\\modules\\detection.py', reloading
+2026-02-08 20:31:55,145 -  * Detected change in 'C:\\projects\\idps\\modules\\logger.py', reloading
+2026-02-08 20:31:55,147 -  * Detected change in 'C:\\projects\\idps\\modules\\prevention.py', reloading
+2026-02-08 20:31:55,147 -  * Detected change in 'C:\\projects\\idps\\modules\\utils.py', reloading
+2026-02-08 20:31:55,148 -  * Detected change in 'C:\\projects\\idps\\modules\\__init__.py', reloading
+2026-02-08 20:31:55,181 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\all.py', reloading
+2026-02-08 20:31:55,191 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\base_classes.py', reloading
+2026-02-08 20:31:55,194 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\config.py', reloading
+2026-02-08 20:31:55,194 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\dadict.py', reloading
+2026-02-08 20:31:55,196 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\data.py', reloading
+2026-02-08 20:31:55,197 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\error.py', reloading
+2026-02-08 20:31:55,198 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\themes.py', reloading
+2026-02-08 20:31:55,202 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\arch\\__init__.py', reloading
+2026-02-08 20:31:55,202 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\arch\\libpcap.py', reloading
+2026-02-08 20:31:55,206 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\arch\\solaris.py', reloading
+2026-02-08 20:31:55,207 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\arch\\unix.py', reloading
+2026-02-08 20:31:55,208 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\arch\\linux\\__init__.py', reloading
+2026-02-08 20:31:55,209 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\arch\\windows\\__init__.py', reloading
+2026-02-08 20:31:55,210 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\interfaces.py', reloading
+2026-02-08 20:31:55,212 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\plist.py', reloading
+2026-02-08 20:31:55,212 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\fields.py', reloading
+2026-02-08 20:31:55,213 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\packet.py', reloading
+2026-02-08 20:31:55,214 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\asn1fields.py', reloading
+2026-02-08 20:31:55,215 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\asn1packet.py', reloading
+2026-02-08 20:31:55,216 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\utils.py', reloading
+2026-02-08 20:31:55,217 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\route.py', reloading
+2026-02-08 20:31:55,221 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\sendrecv.py', reloading
+2026-02-08 20:31:55,222 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\sessions.py', reloading
+2026-02-08 20:31:55,223 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\supersocket.py', reloading
+2026-02-08 20:31:55,223 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\volatile.py', reloading
+2026-02-08 20:31:55,224 -  * Detected change in 'C:\\Users\\Pc\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\scapy\\as_resolvers.py', reloading

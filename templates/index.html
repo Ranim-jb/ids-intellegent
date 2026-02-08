@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IDPS - Intrusion Detection & Prevention System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="dashboard">
+            <div class="header">
+                <h1><i class="fas fa-shield-alt"></i> IDPS Dashboard</h1>
+                <p>Real-time Intrusion Detection & Prevention System</p>
+                <div style="margin-top: 15px;">
+                    <span class="status-indicator status-inactive"></span>
+                    <span id="statusText">Inactive</span>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <div class="button-group">
+                    <button id="startBtn" class="btn btn-start">
+                        <i class="fas fa-play"></i> Start Sniffing
+                    </button>
+                    <button id="stopBtn" class="btn btn-stop">
+                        <i class="fas fa-stop"></i> Stop Sniffing
+                    </button>
+                    <button id="exportBtn" class="btn btn-export">
+                        <i class="fas fa-download"></i> Export Logs
+                    </button>
+                    <button id="trainBtn" class="btn btn-train">
+                        <i class="fas fa-brain"></i> Train ML Model
+                    </button>
+                </div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Packets</div>
+                    <div class="stat-value" id="totalPackets">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">TCP Packets</div>
+                    <div class="stat-value" id="tcpPackets">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">UDP Packets</div>
+                    <div class="stat-value" id="udpPackets">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">ARP Packets</div>
+                    <div class="stat-value" id="arpPackets">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">DNS Packets</div>
+                    <div class="stat-value" id="dnsPackets">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Detected Attacks</div>
+                    <div class="stat-value" id="attacks">0</div>
+                </div>
+            </div>
+            
+            <div class="content-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-exclamation-triangle"></i> Recent Attacks
+                    </div>
+                    <div class="card-body">
+                        <table class="table" id="attacksTable">
+                            <tr>
+                                <th>Packet #</th>
+                                <th>Time</th>
+                                <th>Type</th>
+                                <th>Source IP</th>
+                                <th>Details</th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-ban"></i> Blacklisted IPs
+                    </div>
+                    <div class="card-body">
+                        <table class="table" id="blacklistTable">
+                            <tr>
+                                <th>IP Address</th>
+                                <th>Action</th>
+                            </tr>
+                        </table>
+                        
+                        <div class="add-ip-form">
+                            <input type="text" 
+                                   id="ipInput" 
+                                   class="ip-input" 
+                                   placeholder="Enter IP to block (e.g., 192.168.1.100)">
+                            <button id="addIpBtn" class="btn btn-stop">
+                                <i class="fas fa-plus"></i> Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

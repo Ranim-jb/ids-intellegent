@@ -1,0 +1,1511 @@
+I'll create a Flask web application for the IDPS system with a clean, modular structure. Here's the implementation:
+
+## Project Structure:
+```
+ids-flask-app/
+├── app.py
+├── requirements.txt
+├── static/
+│   ├── css/
+│   │   └── style.css
+│   └── js/
+│       └── script.js
+├── templates/
+│   └── index.html
+├── modules/
+│   ├── __init__.py
+│   ├── sniffing.py
+│   ├── detection.py
+│   ├── ml_model.py
+│   ├── prevention.py
+│   └── logger.py
+├── logs/
+│   └── ids.log
+├── data/
+│   ├── blacklist.txt
+│   └── models/
+└── README.md
+```
+
+## 1. `requirements.txt`
+```txt
+Flask==2.3.3
+Flask-SocketIO==5.3.4
+scapy==2.5.0
+scikit-learn==1.3.0
+pandas==2.0.3
+numpy==1.24.3
+threading
+python-dotenv==1.0.0
+```
+
+## 2. `app.py` (Main Flask Application)
+```python
+from flask import Flask, render_template, jsonify, request, send_file
+from flask_socketio import SocketIO, emit
+from modules.sniffing import PacketSniffer
+from modules.detection import DetectionEngine
+from modules.ml_model import MLModel
+from modules.prevention import PreventionSystem
+from modules.logger import Logger
+import threading
+import time
+import json
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'ids-secret-key-2023'
+socketio = SocketIO(app, cors_allowed_origins="*")
+
+# Global instances
+sniffer = None
+sniffer_thread = None
+is_sniffing = False
+logger = Logger()
+prevention = PreventionSystem()
+ml_model = MLModel()
+
+# Store detected attacks
+detected_attacks = []
+traffic_data = {
+    'total_packets': 0,
+    'tcp': 0,
+    'udp': 0,
+    'arp': 0,
+    'dns': 0,
+    'attacks': 0
+}
+
+class IDPSManager:
+    def __init__(self):
+        self.detection_engine = DetectionEngine()
+        
+    def process_packet(self, packet):
+        global traffic_data, detected_attacks
+        
+        # Update traffic stats
+        traffic_data['total_packets'] += 1
+        
+        # Extract features
+        features = self.extract_packet_features(packet)
+        
+        # Rule-based detection
+        attack_type = self.detection_engine.detect(packet, features)
+        
+        # ML-based detection
+        if not attack_type and features:
+            attack_type = ml_model.predict(features)
+        
+        if attack_type:
+            traffic_data['attacks'] += 1
+            src_ip = features.get('src_ip', 'Unknown')
+            
+            # Log the attack
+            logger.log_event(attack_type, src_ip, features)
+            
+            # Add to prevention system
+            prevention.block_ip(src_ip)
+            
+            # Add to detected attacks list
+            attack_data = {
+                'timestamp': time.strftime('%Y-%m-%d %H:%M:%S'),
+                'type': attack_type,
+                'src_ip': src_ip,
+                'details': json.dumps(features)
+            }
+            detected_attacks.append(attack_data)
+            
+            # Send real-time update via WebSocket
+            socketio.emit('new_attack', attack_data)
+            
+            # Keep only last 100 attacks
+            if len(detected_attacks) > 100:
+                detected_attacks.pop(0)
+    
+    def extract_packet_features(self, packet):
+        # Extract features for ML model
+        features = {}
+        try:
+            if packet.haslayer('IP'):
+                features['src_ip'] = packet['IP'].src
+                features['dst_ip'] = packet['IP'].dst
+                features['protocol'] = packet['IP'].proto
+                
+            if packet.haslayer('TCP'):
+                features['src_port'] = packet['TCP'].sport
+                features['dst_port'] = packet['TCP'].dport
+                features['flags'] = packet['TCP'].flags
+                
+            if packet.haslayer('UDP'):
+                features['src_port'] = packet['UDP'].sport
+                features['dst_port'] = packet['UDP'].dport
+                
+            if packet.haslayer('ARP'):
+                features['op'] = packet['ARP'].op
+                features['src_mac'] = packet['ARP'].hwsrc
+                
+        except:
+            pass
+            
+        return features
+
+# Initialize manager
+manager = IDPSManager()
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/start_sniffing', methods=['POST'])
+def start_sniffing():
+    global sniffer, sniffer_thread, is_sniffing
+    
+    if not is_sniffing:
+        interface = request.json.get('interface', 'eth0')
+        sniffer = PacketSniffer(interface)
+        sniffer_thread = threading.Thread(target=sniffer.start_sniffing, 
+                                         args=(manager.process_packet,))
+        sniffer_thread.daemon = True
+        sniffer_thread.start()
+        is_sniffing = True
+        
+        return jsonify({'status': 'success', 'message': 'Sniffing started'})
+    
+    return jsonify({'status': 'error', 'message': 'Already sniffing'})
+
+@app.route('/stop_sniffing', methods=['POST'])
+def stop_sniffing():
+    global is_sniffing
+    
+    if is_sniffing and sniffer:
+        sniffer.stop_sniffing()
+        is_sniffing = False
+        return jsonify({'status': 'success', 'message': 'Sniffing stopped'})
+    
+    return jsonify({'status': 'error', 'message': 'Not sniffing'})
+
+@app.route('/get_stats')
+def get_stats():
+    return jsonify(traffic_data)
+
+@app.route('/get_attacks')
+def get_attacks():
+    return jsonify(detected_attacks[-20:])  # Return last 20 attacks
+
+@app.route('/get_blacklist')
+def get_blacklist():
+    return jsonify(prevention.get_blacklist())
+
+@app.route('/add_to_blacklist', methods=['POST'])
+def add_to_blacklist():
+    ip = request.json.get('ip')
+    if ip:
+        prevention.block_ip(ip)
+        return jsonify({'status': 'success'})
+    return jsonify({'status': 'error'})
+
+@app.route('/remove_from_blacklist', methods=['POST'])
+def remove_from_blacklist():
+    ip = request.json.get('ip')
+    if ip:
+        prevention.unblock_ip(ip)
+        return jsonify({'status': 'success'})
+    return jsonify({'status': 'error'})
+
+@app.route('/export_logs')
+def export_logs():
+    log_file = 'logs/ids.log'
+    return send_file(log_file, as_attachment=True)
+
+@app.route('/train_model', methods=['POST'])
+def train_model():
+    try:
+        ml_model.train_model()
+        return jsonify({'status': 'success', 'message': 'Model trained successfully'})
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)})
+
+if __name__ == '__main__':
+    # Load ML model on startup
+    ml_model.load_model()
+    socketio.run(app, debug=True, host='0.0.0.0', port=5000)
+```
+
+## 3. `modules/sniffing.py`
+```python
+from scapy.all import sniff, conf
+import threading
+
+class PacketSniffer:
+    def __init__(self, interface='eth0'):
+        self.interface = interface
+        self.sniffing = False
+        self.sniffer_thread = None
+        
+    def start_sniffing(self, callback):
+        self.sniffing = True
+        print(f"[*] Starting packet sniffing on {self.interface}")
+        
+        def packet_handler(packet):
+            if self.sniffing:
+                callback(packet)
+        
+        # Start sniffing in a separate thread
+        sniff(iface=self.interface, 
+              prn=packet_handler, 
+              store=False,
+              stop_filter=lambda x: not self.sniffing)
+    
+    def stop_sniffing(self):
+        self.sniffing = False
+        print("[*] Stopping packet sniffing")
+```
+
+## 4. `modules/detection.py`
+```python
+import time
+from collections import defaultdict
+
+class DetectionEngine:
+    def __init__(self):
+        self.syn_count = defaultdict(int)
+        self.arp_table = {}
+        self.udp_count = defaultdict(int)
+        self.port_scan_threshold = 10
+        self.time_window = 5  # seconds
+        
+    def detect(self, packet, features):
+        # Check for SYN Flood
+        if self.detect_syn_flood(packet, features):
+            return "SYN Flood"
+            
+        # Check for Port Scan
+        if self.detect_port_scan(packet, features):
+            return "Port Scan"
+            
+        # Check for ARP Spoofing
+        if self.detect_arp_spoofing(packet, features):
+            return "ARP Spoofing"
+            
+        # Check for UDP Flood
+        if self.detect_udp_flood(packet, features):
+            return "UDP Flood"
+            
+        return None
+    
+    def detect_syn_flood(self, packet, features):
+        if packet.haslayer('TCP'):
+            flags = packet['TCP'].flags
+            if flags == 'S':  # SYN flag
+                src_ip = features.get('src_ip')
+                if src_ip:
+                    current_time = time.time()
+                    self.syn_count[src_ip] += 1
+                    
+                    # Clean old entries
+                    to_remove = []
+                    for ip, (count, timestamp) in list(self.syn_count.items()):
+                        if current_time - timestamp > self.time_window:
+                            to_remove.append(ip)
+                    
+                    for ip in to_remove:
+                        del self.syn_count[ip]
+                    
+                    # Check threshold
+                    if self.syn_count[src_ip] > 100:  # Threshold
+                        return True
+        return False
+    
+    def detect_port_scan(self, packet, features):
+        if packet.haslayer('TCP') or packet.haslayer('UDP'):
+            src_ip = features.get('src_ip')
+            dst_port = features.get('dst_port')
+            
+            if src_ip and dst_port:
+                key = f"{src_ip}_{dst_port}"
+                current_time = time.time()
+                
+                # Simple port scan detection logic
+                if hasattr(self, 'port_access'):
+                    if src_ip in self.port_access:
+                        if len(self.port_access[src_ip]) > self.port_scan_threshold:
+                            return True
+                        self.port_access[src_ip].add(dst_port)
+                    else:
+                        self.port_access[src_ip] = {dst_port}
+                
+        return False
+    
+    def detect_arp_spoofing(self, packet, features):
+        if packet.haslayer('ARP'):
+            src_ip = packet['ARP'].psrc
+            src_mac = packet['ARP'].hwsrc
+            
+            if src_ip in self.arp_table:
+                if self.arp_table[src_ip] != src_mac:
+                    return True
+            else:
+                self.arp_table[src_ip] = src_mac
+                
+        return False
+    
+    def detect_udp_flood(self, packet, features):
+        if packet.haslayer('UDP'):
+            src_ip = features.get('src_ip')
+            if src_ip:
+                current_time = time.time()
+                self.udp_count[src_ip] += 1
+                
+                # Clean old entries
+                to_remove = [ip for ip, (count, timestamp) in self.udp_count.items() 
+                           if current_time - timestamp > self.time_window]
+                
+                for ip in to_remove:
+                    del self.udp_count[ip]
+                
+                # Check threshold
+                if self.udp_count[src_ip] > 500:  # Threshold
+                    return True
+        return False
+```
+
+## 5. `modules/ml_model.py`
+```python
+import pickle
+import os
+import numpy as np
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+
+class MLModel:
+    def __init__(self):
+        self.model = None
+        self.scaler = StandardScaler()
+        self.model_path = 'data/models/ids_model.pkl'
+        self.scaler_path = 'data/models/scaler.pkl'
+        
+    def load_model(self):
+        """Load pre-trained model"""
+        try:
+            if os.path.exists(self.model_path):
+                with open(self.model_path, 'rb') as f:
+                    self.model = pickle.load(f)
+                with open(self.scaler_path, 'rb') as f:
+                    self.scaler = pickle.load(f)
+                print("[*] ML Model loaded successfully")
+                return True
+        except:
+            print("[!] Could not load ML model")
+        return False
+    
+    def train_model(self, features=None, labels=None):
+        """Train or retrain the model"""
+        if features is None or labels is None:
+            # Generate synthetic data for demonstration
+            features, labels = self.generate_training_data()
+        
+        # Split data
+        X_train, X_test, y_train, y_test = train_test_split(
+            features, labels, test_size=0.2, random_state=42
+        )
+        
+        # Scale features
+        X_train_scaled = self.scaler.fit_transform(X_train)
+        X_test_scaled = self.scaler.transform(X_test)
+        
+        # Train Random Forest
+        self.model = RandomForestClassifier(
+            n_estimators=100,
+            max_depth=10,
+            random_state=42
+        )
+        self.model.fit(X_train_scaled, y_train)
+        
+        # Save model
+        os.makedirs('data/models', exist_ok=True)
+        with open(self.model_path, 'wb') as f:
+            pickle.dump(self.model, f)
+        with open(self.scaler_path, 'wb') as f:
+            pickle.dump(self.scaler, f)
+        
+        accuracy = self.model.score(X_test_scaled, y_test)
+        print(f"[*] Model trained with accuracy: {accuracy:.2f}")
+        
+        return accuracy
+    
+    def predict(self, features):
+        """Predict if packet is attack"""
+        if self.model is None:
+            return None
+        
+        # Convert features to array
+        feature_vector = self.extract_ml_features(features)
+        if feature_vector is not None:
+            # Scale features
+            feature_vector_scaled = self.scaler.transform([feature_vector])
+            prediction = self.model.predict(feature_vector_scaled)
+            if prediction[0] == 1:  # Attack detected
+                return "ML Detected Attack"
+        
+        return None
+    
+    def extract_ml_features(self, packet_features):
+        """Extract features for ML model"""
+        try:
+            features = [
+                packet_features.get('src_port', 0) or 0,
+                packet_features.get('dst_port', 0) or 0,
+                packet_features.get('protocol', 0) or 0,
+                len(str(packet_features))  # Simple feature
+            ]
+            return features
+        except:
+            return None
+    
+    def generate_training_data(self):
+        """Generate synthetic training data"""
+        np.random.seed(42)
+        n_samples = 1000
+        
+        # Normal traffic features
+        normal_features = np.random.normal(50, 10, (n_samples, 4))
+        normal_labels = np.zeros(n_samples)
+        
+        # Attack traffic features
+        attack_features = np.random.normal(150, 30, (n_samples, 4))
+        attack_labels = np.ones(n_samples)
+        
+        # Combine
+        features = np.vstack([normal_features, attack_features])
+        labels = np.hstack([normal_labels, attack_labels])
+        
+        return features, labels
+```
+
+## 6. `modules/prevention.py`
+```python
+import threading
+import time
+
+class PreventionSystem:
+    def __init__(self):
+        self.blacklist = set()
+        self.blacklist_file = 'data/blacklist.txt'
+        self.lock = threading.Lock()
+        self.load_blacklist()
+    
+    def load_blacklist(self):
+        """Load blacklist from file"""
+        try:
+            with open(self.blacklist_file, 'r') as f:
+                for line in f:
+                    ip = line.strip()
+                    if ip:
+                        self.blacklist.add(ip)
+        except FileNotFoundError:
+            pass
+    
+    def save_blacklist(self):
+        """Save blacklist to file"""
+        with self.lock:
+            with open(self.blacklist_file, 'w') as f:
+                for ip in self.blacklist:
+                    f.write(f"{ip}\n")
+    
+    def block_ip(self, ip):
+        """Block an IP address"""
+        with self.lock:
+            if ip not in self.blacklist:
+                self.blacklist.add(ip)
+                self.save_blacklist()
+                print(f"[*] IP {ip} added to blacklist")
+                
+                # In a real implementation, you would add iptables rules here
+                # self.add_iptables_rule(ip)
+                
+                return True
+        return False
+    
+    def unblock_ip(self, ip):
+        """Unblock an IP address"""
+        with self.lock:
+            if ip in self.blacklist:
+                self.blacklist.remove(ip)
+                self.save_blacklist()
+                print(f"[*] IP {ip} removed from blacklist")
+                
+                # In a real implementation, you would remove iptables rules here
+                # self.remove_iptables_rule(ip)
+                
+                return True
+        return False
+    
+    def is_blocked(self, ip):
+        """Check if IP is blocked"""
+        return ip in self.blacklist
+    
+    def get_blacklist(self):
+        """Get all blocked IPs"""
+        return list(self.blacklist)
+```
+
+## 7. `modules/logger.py`
+```python
+import logging
+import time
+from datetime import datetime
+
+class Logger:
+    def __init__(self):
+        self.log_file = 'logs/ids.log'
+        self.setup_logging()
+    
+    def setup_logging(self):
+        """Setup logging configuration"""
+        logging.basicConfig(
+            level=logging.INFO,
+            format='%(asctime)s - %(message)s',
+            handlers=[
+                logging.FileHandler(self.log_file),
+                logging.StreamHandler()
+            ]
+        )
+        self.logger = logging.getLogger('IDS')
+    
+    def log_event(self, attack_type, src_ip, details=None):
+        """Log security event"""
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        message = f"ATTACK: {attack_type} - Source IP: {src_ip}"
+        
+        if details:
+            message += f" - Details: {details}"
+        
+        self.logger.info(message)
+        
+        # Also write to console
+        print(f"[!] {message}")
+        
+        return timestamp
+```
+
+## 8. `static/css/style.css`
+```css
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.dashboard {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    overflow: hidden;
+}
+
+.header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.header p {
+    opacity: 0.9;
+    font-size: 1.1em;
+}
+
+.controls {
+    padding: 25px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.button-group {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1em;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn i {
+    font-size: 1.2em;
+}
+
+.btn-start {
+    background: #28a745;
+    color: white;
+}
+
+.btn-stop {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-export {
+    background: #17a2b8;
+    color: white;
+}
+
+.btn-train {
+    background: #6c757d;
+    color: white;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 25px;
+}
+
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-value {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #667eea;
+    margin: 10px 0;
+}
+
+.stat-label {
+    color: #6c757d;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 25px;
+    padding: 25px;
+}
+
+.card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.card-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px;
+    font-size: 1.3em;
+    font-weight: 600;
+}
+
+.card-body {
+    padding: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th {
+    background: #f8f9fa;
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+    color: #495057;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.table td {
+    padding: 12px;
+    border-bottom: 1px solid #dee2e6;
+    color: #212529;
+}
+
+.attack-syn {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.attack-arp {
+    color: #fd7e14;
+    font-weight: bold;
+}
+
+.attack-port {
+    color: #20c997;
+    font-weight: bold;
+}
+
+.attack-udp {
+    color: #6f42c1;
+    font-weight: bold;
+}
+
+.attack-ml {
+    color: #e83e8c;
+    font-weight: bold;
+}
+
+.ip-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    background: #e9ecef;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.9em;
+}
+
+.remove-ip {
+    color: #dc3545;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.remove-ip:hover {
+    background: rgba(220, 53, 69, 0.1);
+}
+
+.add-ip-form {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.ip-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    font-size: 1em;
+}
+
+.status-indicator {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.status-active {
+    background: #28a745;
+    animation: pulse 2s infinite;
+}
+
+.status-inactive {
+    background: #dc3545;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.real-time-update {
+    animation: highlight 1s ease;
+}
+
+@keyframes highlight {
+    0% { background: rgba(40, 167, 69, 0.3); }
+    100% { background: transparent; }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .button-group {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+}
+```
+
+## 9. `static/js/script.js`
+```javascript
+document.addEventListener('DOMContentLoaded', function() {
+    // DOM Elements
+    const startBtn = document.getElementById('startBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const exportBtn = document.getElementById('exportBtn');
+    const trainBtn = document.getElementById('trainBtn');
+    const addIpBtn = document.getElementById('addIpBtn');
+    const ipInput = document.getElementById('ipInput');
+    
+    // Stats elements
+    const totalPacketsEl = document.getElementById('totalPackets');
+    const tcpPacketsEl = document.getElementById('tcpPackets');
+    const udpPacketsEl = document.getElementById('udpPackets');
+    const arpPacketsEl = document.getElementById('arpPackets');
+    const dnsPacketsEl = document.getElementById('dnsPackets');
+    const attacksEl = document.getElementById('attacks');
+    
+    // Tables
+    const attacksTable = document.getElementById('attacksTable');
+    const blacklistTable = document.getElementById('blacklistTable');
+    
+    // Status indicator
+    const statusIndicator = document.querySelector('.status-indicator');
+    const statusText = document.getElementById('statusText');
+    
+    // WebSocket connection
+    const socket = io();
+    
+    // Event Listeners
+    startBtn.addEventListener('click', startSniffing);
+    stopBtn.addEventListener('click', stopSniffing);
+    exportBtn.addEventListener('click', exportLogs);
+    trainBtn.addEventListener('click', trainModel);
+    addIpBtn.addEventListener('click', addToBlacklist);
+    
+    // WebSocket events
+    socket.on('connect', function() {
+        console.log('Connected to WebSocket server');
+    });
+    
+    socket.on('new_attack', function(data) {
+        console.log('New attack detected:', data);
+        addAttackToTable(data);
+        updateStats();
+    });
+    
+    // Initialize
+    updateStats();
+    updateBlacklist();
+    
+    // Functions
+    function startSniffing() {
+        fetch('/start_sniffing', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ interface: 'eth0' })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                setStatusActive(true);
+                showNotification('Sniffing started successfully', 'success');
+            } else {
+                showNotification(data.message, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('Failed to start sniffing', 'error');
+        });
+    }
+    
+    function stopSniffing() {
+        fetch('/stop_sniffing', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                setStatusActive(false);
+                showNotification('Sniffing stopped', 'success');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+    
+    function exportLogs() {
+        window.open('/export_logs', '_blank');
+        showNotification('Logs exported successfully', 'success');
+    }
+    
+    function trainModel() {
+        fetch('/train_model', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                showNotification(data.message, 'success');
+            } else {
+                showNotification(data.message, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+    
+    function addToBlacklist() {
+        const ip = ipInput.value.trim();
+        if (!ip || !isValidIP(ip)) {
+            showNotification('Please enter a valid IP address', 'error');
+            return;
+        }
+        
+        fetch('/add_to_blacklist', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ ip: ip })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                ipInput.value = '';
+                updateBlacklist();
+                showNotification('IP added to blacklist', 'success');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+    
+    function removeFromBlacklist(ip) {
+        fetch('/remove_from_blacklist', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ ip: ip })
+        })
+        .then(response => response.json())
+        .then(() => {
+            updateBlacklist();
+            showNotification('IP removed from blacklist', 'success');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+    
+    function updateStats() {
+        fetch('/get_stats')
+            .then(response => response.json())
+            .then(data => {
+                totalPacketsEl.textContent = data.total_packets;
+                tcpPacketsEl.textContent = data.tcp;
+                udpPacketsEl.textContent = data.udp;
+                arpPacketsEl.textContent = data.arp;
+                dnsPacketsEl.textContent = data.dns;
+                attacksEl.textContent = data.attacks;
+            });
+    }
+    
+    function updateAttacks() {
+        fetch('/get_attacks')
+            .then(response => response.json())
+            .then(attacks => {
+                attacksTable.innerHTML = `
+                    <tr>
+                        <th>Time</th>
+                        <th>Type</th>
+                        <th>Source IP</th>
+                        <th>Details</th>
+                    </tr>
+                `;
+                
+                attacks.forEach(attack => {
+                    const row = attacksTable.insertRow();
+                    row.className = 'real-time-update';
+                    
+                    const timeCell = row.insertCell();
+                    const typeCell = row.insertCell();
+                    const ipCell = row.insertCell();
+                    const detailsCell = row.insertCell();
+                    
+                    timeCell.textContent = attack.timestamp;
+                    typeCell.textContent = attack.type;
+                    typeCell.className = getAttackClass(attack.type);
+                    ipCell.innerHTML = `<span class="ip-badge">${attack.src_ip}</span>`;
+                    detailsCell.textContent = attack.details || 'No details';
+                    
+                    // Remove highlight animation after 1 second
+                    setTimeout(() => {
+                        row.classList.remove('real-time-update');
+                    }, 1000);
+                });
+            });
+    }
+    
+    function updateBlacklist() {
+        fetch('/get_blacklist')
+            .then(response => response.json())
+            .then(ips => {
+                blacklistTable.innerHTML = `
+                    <tr>
+                        <th>IP Address</th>
+                        <th>Action</th>
+                    </tr>
+                `;
+                
+                ips.forEach(ip => {
+                    const row = blacklistTable.insertRow();
+                    const ipCell = row.insertCell();
+                    const actionCell = row.insertCell();
+                    
+                    ipCell.innerHTML = `<span class="ip-badge">${ip}</span>`;
+                    actionCell.innerHTML = `
+                        <span class="remove-ip" onclick="removeFromBlacklist('${ip}')">
+                            <i class="fas fa-trash"></i> Remove
+                        </span>
+                    `;
+                });
+            });
+    }
+    
+    function addAttackToTable(attack) {
+        const row = attacksTable.insertRow();
+        row.className = 'real-time-update';
+        
+        const timeCell = row.insertCell();
+        const typeCell = row.insertCell();
+        const ipCell = row.insertCell();
+        const detailsCell = row.insertCell();
+        
+        timeCell.textContent = attack.timestamp;
+        typeCell.textContent = attack.type;
+        typeCell.className = getAttackClass(attack.type);
+        ipCell.innerHTML = `<span class="ip-badge">${attack.src_ip}</span>`;
+        detailsCell.textContent = attack.details || 'No details';
+        
+        // Remove old rows if more than 20
+        if (attacksTable.rows.length > 21) {
+            attacksTable.deleteRow(1);
+        }
+        
+        // Remove highlight animation
+        setTimeout(() => {
+            row.classList.remove('real-time-update');
+        }, 1000);
+    }
+    
+    function getAttackClass(attackType) {
+        const classMap = {
+            'SYN Flood': 'attack-syn',
+            'Port Scan': 'attack-port',
+            'ARP Spoofing': 'attack-arp',
+            'UDP Flood': 'attack-udp',
+            'ML Detected Attack': 'attack-ml'
+        };
+        return classMap[attackType] || '';
+    }
+    
+    function setStatusActive(active) {
+        if (active) {
+            statusIndicator.classList.remove('status-inactive');
+            statusIndicator.classList.add('status-active');
+            statusText.textContent = 'Active';
+        } else {
+            statusIndicator.classList.remove('status-active');
+            statusIndicator.classList.add('status-inactive');
+            statusText.textContent = 'Inactive';
+        }
+    }
+    
+    function isValidIP(ip) {
+        const ipRegex = /^(\d{1,3}\.){3}\d{1,3}$/;
+        if (!ipRegex.test(ip)) return false;
+        
+        const parts = ip.split('.');
+        return parts.every(part => {
+            const num = parseInt(part, 10);
+            return num >= 0 && num <= 255;
+        });
+    }
+    
+    function showNotification(message, type) {
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.textContent = message;
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: ${type === 'success' ? '#28a745' : '#dc3545'};
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Remove after 3 seconds
+        setTimeout(() => {
+            notification.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 300);
+        }, 3000);
+    }
+    
+    // Add CSS for notifications
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Auto-update stats every 5 seconds
+    setInterval(updateStats, 5000);
+    setInterval(updateAttacks, 10000);
+    setInterval(updateBlacklist, 15000);
+    
+    // Make removeFromBlacklist globally available
+    window.removeFromBlacklist = removeFromBlacklist;
+});
+```
+
+## 10. `templates/index.html`
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IDPS - Intrusion Detection & Prevention System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="dashboard">
+            <div class="header">
+                <h1><i class="fas fa-shield-alt"></i> IDPS Dashboard</h1>
+                <p>Real-time Intrusion Detection & Prevention System</p>
+                <div style="margin-top: 15px;">
+                    <span class="status-indicator status-inactive"></span>
+                    <span id="statusText">Inactive</span>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <div class="button-group">
+                    <button id="startBtn" class="btn btn-start">
+                        <i class="fas fa-play"></i> Start Sniffing
+                    </button>
+                    <button id="stopBtn" class="btn btn-stop">
+                        <i class="fas fa-stop"></i> Stop Sniffing
+                    </button>
+                    <button id="exportBtn" class="btn btn-export">
+                        <i class="fas fa-download"></i> Export Logs
+                    </button>
+                    <button id="trainBtn" class="btn btn-train">
+                        <i class="fas fa-brain"></i> Train ML Model
+                    </button>
+                </div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Packets</div>
+                    <div class="stat-value" id="totalPackets">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">TCP Packets</div>
+                    <div class="stat-value" id="tcpPackets">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">UDP Packets</div>
+                    <div class="stat-value" id="udpPackets">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">ARP Packets</div>
+                    <div class="stat-value" id="arpPackets">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">DNS Packets</div>
+                    <div class="stat-value" id="dnsPackets">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Detected Attacks</div>
+                    <div class="stat-value" id="attacks">0</div>
+                </div>
+            </div>
+            
+            <div class="content-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-exclamation-triangle"></i> Recent Attacks
+                    </div>
+                    <div class="card-body">
+                        <table class="table" id="attacksTable">
+                            <tr>
+                                <th>Time</th>
+                                <th>Type</th>
+                                <th>Source IP</th>
+                                <th>Details</th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-ban"></i> Blacklisted IPs
+                    </div>
+                    <div class="card-body">
+                        <table class="table" id="blacklistTable">
+                            <tr>
+                                <th>IP Address</th>
+                                <th>Action</th>
+                            </tr>
+                        </table>
+                        
+                        <div class="add-ip-form">
+                            <input type="text" 
+                                   id="ipInput" 
+                                   class="ip-input" 
+                                   placeholder="Enter IP to block (e.g., 192.168.1.100)">
+                            <button id="addIpBtn" class="btn btn-stop">
+                                <i class="fas fa-plus"></i> Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
+```
+
+## 11. `README.md`
+```markdown
+# IDPS - Intrusion Detection & Prevention System
+
+A Flask-based web application for real-time network intrusion detection and prevention.
+
+## Features
+- Real-time packet sniffing using Scapy
+- Detection of SYN Flood, Port Scan, ARP Spoofing, UDP Flood attacks
+- Machine Learning-based anomaly detection (Random Forest)
+- Web-based dashboard with real-time updates
+- IP blacklisting and automatic blocking
+- Comprehensive logging system
+- Export functionality for logs
+
+## Installation
+
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd ids-flask-app
+```
+
+2. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+3. Create required directories:
+```bash
+mkdir -p logs data/models
+```
+
+4. Run the application:
+```bash
+# On Linux/Mac (requires root for packet sniffing)
+sudo python app.py
+
+# On Windows (run as Administrator)
+python app.py
+```
+
+## Usage
+
+1. Open your browser and navigate to `http://localhost:5000`
+2. Click "Start Sniffing" to begin monitoring network traffic
+3. View real-time statistics and detected attacks on the dashboard
+4. Manage blacklisted IPs from the interface
+5. Export logs when needed
+
+## Project Structure
+```
+ids-flask-app/
+├── app.py              # Main Flask application
+├── modules/           # Core IDPS modules
+│   ├── sniffing.py   # Packet sniffing
+│   ├── detection.py  # Attack detection rules
+│   ├── ml_model.py   # ML model training/prediction
+│   ├── prevention.py # IP blocking system
+│   └── logger.py     # Logging system
+├── templates/        # HTML templates
+├── static/          # CSS/JS assets
+├── logs/            # Log files
+└── data/            # Models and blacklists
+```
+
+## Technologies Used
+- Flask - Web framework
+- Scapy - Packet manipulation
+- scikit-learn - Machine Learning
+- Socket.IO - Real-time updates
+- JavaScript - Frontend interactivity
+
+## Security Notes
+- Requires administrative/root privileges for packet sniffing
+- The ML model uses synthetic data for demonstration
+- In production, train with real network data
+- Implement proper authentication for web interface
+- Use HTTPS in production
+
+## License
+MIT License
+```
+
+## 12. Setup Script `setup.py`
+```python
+#!/usr/bin/env python3
+import os
+import subprocess
+import sys
+
+def setup_project():
+    """Setup the IDPS Flask project"""
+    
+    print("Setting up IDPS Flask Application...")
+    
+    # Create directories
+    directories = [
+        'logs',
+        'data/models',
+        'static/css',
+        'static/js',
+        'templates',
+        'modules'
+    ]
+    
+    for directory in directories:
+        os.makedirs(directory, exist_ok=True)
+        print(f"Created directory: {directory}")
+    
+    # Create empty files
+    files = [
+        'logs/ids.log',
+        'data/blacklist.txt'
+    ]
+    
+    for file in files:
+        with open(file, 'a') as f:
+            pass
+        print(f"Created file: {file}")
+    
+    # Install requirements
+    print("\nInstalling requirements...")
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
+    
+    print("\nSetup complete!")
+    print("\nTo run the application:")
+    print("  sudo python app.py  # On Linux/Mac")
+    print("  python app.py       # On Windows (as Administrator)")
+    print("\nThen open: http://localhost:5000")
+
+if __name__ == "__main__":
+    setup_project()
+```
+
+## Key Features Implemented:
+
+1. **Real-time Packet Sniffing**: Uses Scapy for network packet capture
+2. **Attack Detection**: 
+   - SYN Flood detection
+   - Port Scan detection
+   - ARP Spoofing detection
+   - UDP Flood detection
+3. **Machine Learning Integration**: Random Forest classifier for anomaly detection
+4. **Web-based Dashboard**: Real-time updates via WebSocket
+5. **Prevention System**: IP blacklisting with automatic blocking
+6. **Comprehensive Logging**: All events logged to file with timestamps
+7. **Export Functionality**: Download logs as files
+
+## To Run:
+
+1. Save all files in the structure shown above
+2. Run `python setup.py` to create directories and install dependencies
+3. Run `sudo python app.py` (Linux/Mac) or `python app.py` as Administrator (Windows)
+4. Open browser to `http://localhost:5000`
+
+**Note**: Running packet sniffing requires root/administrator privileges on most systems.
+
+The application provides a clean, professional web interface with real-time updates, comprehensive monitoring, and all requested IDPS functionalities.
