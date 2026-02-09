@@ -1,4 +1,7 @@
-# IDPS - Intrusion Detection & Prevention System
+# ids-intellegent
+>>>>>>> d55c7bbe1ee8ac728ef4996e2c41c5f5e33e99f3
+=======
+# IDS Intelligent - Intrusion Detection & Prevention System
 
 A Flask-based web application for real-time network intrusion detection and prevention.
 
@@ -15,8 +18,8 @@ A Flask-based web application for real-time network intrusion detection and prev
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
-cd ids-flask-app
+git clone https://github.com/Ranim-jb/ids-intellegent.git
+cd ids-intellegent
 ```
 
 2. Install dependencies:
@@ -48,7 +51,7 @@ python app.py
 
 ## Project Structure
 ```
-ids-flask-app/
+ids-intellegent/
 ├── app.py              # Main Flask application
 ├── modules/           # Core IDPS modules
 │   ├── sniffing.py   # Packet sniffing
@@ -78,4 +81,6 @@ ids-flask-app/
 
 ## License
 MIT License
-"# ids" 
+=======
+# ids-intellegent
+>>>>>>> d55c7bbe1ee8ac728ef4996e2c41c5f5e33e99f3
