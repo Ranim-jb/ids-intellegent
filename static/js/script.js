@@ -66,6 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize
     updateStats();
     updateBlacklist();
+    updateAttacks();
     
     // Functions
     function startSniffing() {
@@ -251,18 +252,18 @@ document.addEventListener('DOMContentLoaded', function() {
                         <th>Action</th>
                     </tr>
                 `;
-                
+
                 ips.forEach(ip => {
                     const row = blacklistTable.insertRow();
                     const ipCell = row.insertCell();
                     const actionCell = row.insertCell();
-                    
+
                     ipCell.innerHTML = `<span class="ip-badge">${ip}</span>`;
-                    actionCell.innerHTML = `
-                        <span class="remove-ip" onclick="removeFromBlacklist('${ip}')">
-                            <i class="fas fa-trash"></i> Remove
-                        </span>
-                    `;
+                    const removeBtn = document.createElement('span');
+                    removeBtn.className = 'remove-ip';
+                    removeBtn.innerHTML = '<i class="fas fa-trash"></i> Remove';
+                    removeBtn.addEventListener('click', () => removeFromBlacklist(ip));
+                    actionCell.appendChild(removeBtn);
                 });
             });
     }
