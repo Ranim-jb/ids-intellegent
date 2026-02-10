@@ -1,7 +1,13 @@
 # Import Flask web framework for creating the web application
-from flask import Flask, render_template, jsonify, request, send_file
+from flask import Flask, render_template, jsonify, request, send_file, session, redirect, url_for
 # Import Flask-SocketIO for real-time WebSocket communication
 from flask_socketio import SocketIO, emit
+# Import Flask-Login for authentication
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+# Import werkzeug for password hashing
+from werkzeug.security import generate_password_hash, check_password_hash
+# Import functools for decorators
+from functools import wraps
 # Import custom modules for IDPS functionality
 from modules.sniffing import PacketSniffer  # Packet capture module
 from modules.detection import DetectionEngine  # Attack detection rules
@@ -27,6 +33,30 @@ app.config['SECRET_KEY'] = 'ids-secret-key-2023'
 # Initialize SocketIO with CORS enabled for all origins and threading mode for Windows compatibility
 socketio = SocketIO(app, cors_allowed_origins="*", async_mode='threading')
 
+# Initialize Flask-Login
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
+# Simple User class for authentication
+class User(UserMixin):
+    def __init__(self, id, username, password_hash):
+        self.id = id
+        self.username = username
+        self.password_hash = password_hash
+
+# In-memory user database (in production, use a real database)
+users = {
+    'admin': User(1, 'admin', generate_password_hash('admin123'))
+}
+
+@login_manager.user_loader
+def load_user(user_id):
+    for user in users.values():
+        if str(user.id) == str(user_id):
+            return user
+    return None
+
 # Global variables for packet sniffing management
 sniffer = None  # PacketSniffer instance
 sniffer_thread = None  # Thread for running sniffer
@@ -45,6 +75,43 @@ traffic_data = {  # Real-time traffic statistics
     'dns': 0,  # DNS packet count
     'attacks': 0  # Total detected attacks
 }
+
+# Add some test attacks for demonstration
+def add_test_attacks():
+    import json
+    test_attacks = [
+        {
+            'timestamp': '2024-01-15 10:30:15',
+            'type': 'SYN Flood',
+            'src_ip': '192.168.1.100',
+            'details': json.dumps({'src_ip': '192.168.1.100', 'dst_ip': '192.168.1.39', 'protocol': 6, 'src_port': 12345, 'dst_port': 80, 'flags': 'S'})
+        },
+        {
+            'timestamp': '2024-01-15 10:30:20',
+            'type': 'Port Scan',
+            'src_ip': '192.168.1.101',
+            'details': json.dumps({'src_ip': '192.168.1.101', 'dst_ip': '192.168.1.39', 'protocol': 6, 'src_port': 54321, 'dst_port': 22})
+        },
+        {
+            'timestamp': '2024-01-15 10:30:25',
+            'type': 'UDP Flood',
+            'src_ip': '192.168.1.102',
+            'details': json.dumps({'src_ip': '192.168.1.102', 'dst_ip': '192.168.1.39', 'protocol': 17, 'src_port': 12345, 'dst_port': 53})
+        }
+    ]
+    detected_attacks.extend(test_attacks)
+    traffic_data['attacks'] = len(detected_attacks)
+
+# Add some test IPs to blacklist for demonstration
+def add_test_blacklist():
+    test_ips = ['192.168.1.200', '192.168.1.201', '192.168.1.202']
+    for ip in test_ips:
+        prevention.block_ip(ip)
+    print(f"[*] Added {len(test_ips)} test IPs to blacklist")
+
+# Add test attacks and blacklist on startup
+add_test_attacks()
+add_test_blacklist()
 
 # Main IDPS manager class that coordinates packet processing and attack detection
 class IDPSManager:
@@ -110,6 +177,8 @@ class IDPSManager:
                 # Get source IP from packet features
                 src_ip = features.get('src_ip', 'Unknown')
 
+                print(f"[!] ATTACK DETECTED: {attack_type} from {src_ip}")
+
                 # Log the attack event
                 logger.log_event(attack_type, src_ip, features)
 
@@ -125,13 +194,10 @@ class IDPSManager:
                 }
                 # Add to detected attacks list
                 detected_attacks.append(attack_data)
+                print(f"[!] Attack added to list. Total attacks: {len(detected_attacks)}")
 
                 # Send real-time notification to WebSocket clients
-                socketio.server.emit('new_attack', attack_data, namespace='/')
-
-                # Maintain only the last 100 attacks to prevent memory issues
-                if len(detected_attacks) > 100:
-                    detected_attacks.pop(0)  # Remove oldest attack
+                socketio.emit('new_attack', attack_data, namespace='/')
 
         except Exception as e:
             # Log any errors during packet processing
@@ -152,7 +218,7 @@ class IDPSManager:
             if packet.haslayer('TCP'):
                 features['src_port'] = packet['TCP'].sport  # Source port
                 features['dst_port'] = packet['TCP'].dport  # Destination port
-                features['flags'] = packet['TCP'].flags  # TCP flags (SYN, ACK, etc.)
+                features['flags'] = str(packet['TCP'].flags)  # TCP flags (SYN, ACK, etc.) as string
 
             # Extract UDP layer features
             if packet.haslayer('UDP'):
@@ -163,6 +229,7 @@ class IDPSManager:
             if packet.haslayer('ARP'):
                 features['op'] = packet['ARP'].op  # ARP operation (request/reply)
                 features['src_mac'] = packet['ARP'].hwsrc  # Source MAC address
+                features['src_ip'] = packet['ARP'].psrc  # Source IP address
 
         except:
             pass  # Skip if feature extraction fails
@@ -172,14 +239,42 @@ class IDPSManager:
 # Create an instance of the IDPSManager to handle packet processing
 manager = IDPSManager()
 
+# Flask route for login page
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    
+    if request.method == 'POST':
+        username = request.json.get('username')
+        password = request.json.get('password')
+        
+        user = users.get(username)
+        if user and check_password_hash(user.password_hash, password):
+            login_user(user)
+            return jsonify({'status': 'success', 'message': 'Login successful'})
+        else:
+            return jsonify({'status': 'error', 'message': 'Invalid username or password'})
+    
+    return render_template('login.html')
+
+# Flask route for logout
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
 # Flask route for the main dashboard page
 @app.route('/')
+@login_required
 def index():
     # Render the main HTML template for the IDPS dashboard
     return render_template('index.html')
 
 # API endpoint to start packet sniffing (POST request)
 @app.route('/start_sniffing', methods=['POST'])
+@login_required
 def start_sniffing():
     # Access global variables for sniffer management
     global sniffer, sniffer_thread, is_sniffing
@@ -203,7 +298,7 @@ def start_sniffing():
         print(f"[*] Sniffing started - is_sniffing: {is_sniffing}")
 
         # Notify all connected WebSocket clients about status change
-        socketio.server.emit('status_changed', {'is_sniffing': True}, namespace='/')
+        socketio.emit('status_changed', {'is_sniffing': True}, namespace='/')
 
         # Return success response
         return jsonify({'status': 'success', 'message': 'Sniffing started', 'is_sniffing': is_sniffing})
@@ -213,6 +308,7 @@ def start_sniffing():
 
 # API endpoint to stop packet sniffing (POST request)
 @app.route('/stop_sniffing', methods=['POST'])
+@login_required
 def stop_sniffing():
     # Access global sniffing status
     global is_sniffing
@@ -238,6 +334,7 @@ def stop_sniffing():
 
 # API endpoint to get current traffic statistics (GET request)
 @app.route('/get_stats')
+@login_required
 def get_stats():
     # Create copy of traffic data and add sniffing status
     stats = dict(traffic_data)
@@ -247,9 +344,10 @@ def get_stats():
 
 # API endpoint to get list of detected attacks (GET request)
 @app.route('/get_attacks')
+@login_required
 def get_attacks():
-    # Return last 20 detected attacks as JSON
-    return jsonify(detected_attacks[-20:])
+    # Return all detected attacks as JSON
+    return jsonify(detected_attacks)
 
 # API endpoint to get available network interfaces (GET request)
 @app.route('/get_interfaces')
@@ -267,18 +365,24 @@ def get_interfaces():
 
 # API endpoint to get current IP blacklist (GET request)
 @app.route('/get_blacklist')
+@login_required
 def get_blacklist():
     # Return current blacklist from prevention system
     return jsonify(prevention.get_blacklist())
 
 # API endpoint to add IP to blacklist (POST request)
 @app.route('/add_to_blacklist', methods=['POST'])
+@login_required
 def add_to_blacklist():
     # Get IP address from request JSON
     ip = request.json.get('ip')
+    print(f"[DEBUG] add_to_blacklist called with IP: {ip}")
     if ip:
         # Add IP to prevention system's blacklist
-        prevention.block_ip(ip)
+        result = prevention.block_ip(ip)
+        print(f"[DEBUG] block_ip result: {result}")
+        # Emit updated blacklist to all clients
+        socketio.emit('blacklist_updated', prevention.get_blacklist(), namespace='/')
         # Return success response
         return jsonify({'status': 'success'})
     # Return error if no IP provided
@@ -286,12 +390,15 @@ def add_to_blacklist():
 
 # API endpoint to remove IP from blacklist (POST request)
 @app.route('/remove_from_blacklist', methods=['POST'])
+@login_required
 def remove_from_blacklist():
     # Get IP address from request JSON
     ip = request.json.get('ip')
     if ip:
         # Remove IP from prevention system's blacklist
         prevention.unblock_ip(ip)
+        # Emit updated blacklist to all clients
+        socketio.server.emit('blacklist_updated', prevention.get_blacklist(), namespace='/')
         # Return success response
         return jsonify({'status': 'success'})
     # Return error if no IP provided

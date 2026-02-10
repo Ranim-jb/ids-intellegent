@@ -48,6 +48,11 @@ class MLModel:
 
     def train_model(self, features=None, labels=None):
         """Train or retrain the machine learning model"""
+        # Check if scikit-learn is available
+        if not SKLEARN_AVAILABLE:
+            print("[!] scikit-learn not available. Cannot train model.")
+            return False
+
         # If no data provided, generate synthetic training data
         if features is None or labels is None:
             # Generate synthetic data for demonstration

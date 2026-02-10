@@ -62,7 +62,7 @@ class DetectionEngine:
                         del self.syn_count[ip]
 
                     # Check if SYN count exceeds threshold
-                    if self.syn_count[src_ip][0] > 100:  # Threshold for SYN flood
+                    if self.syn_count[src_ip][0] > 5:  # Threshold for SYN flood (lowered for testing)
                         return True
         return False
 

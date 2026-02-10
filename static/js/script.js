@@ -22,6 +22,32 @@ document.addEventListener('DOMContentLoaded', function() {
     // Packet counter
     let packetNumber = 0;
     
+    // Charts
+    let trafficChart = null;
+    let protocolChart = null;
+    let trafficData = {
+        labels: [],
+        datasets: [{
+            label: 'Total Packets',
+            data: [],
+            borderColor: '#667eea',
+            backgroundColor: 'rgba(102, 126, 234, 0.1)',
+            tension: 0.4
+        }]
+    };
+    let protocolData = {
+        labels: ['TCP', 'UDP', 'ARP', 'DNS'],
+        datasets: [{
+            data: [0, 0, 0, 0],
+            backgroundColor: [
+                'rgba(40, 167, 69, 0.8)',
+                'rgba(108, 117, 125, 0.8)',
+                'rgba(255, 193, 7, 0.8)',
+                'rgba(23, 162, 184, 0.8)'
+            ]
+        }]
+    };
+    
     // Status indicator
     const statusIndicator = document.querySelector('.status-indicator');
     const statusText = document.getElementById('statusText');
@@ -55,6 +81,9 @@ document.addEventListener('DOMContentLoaded', function() {
         arpPacketsEl.textContent = data.arp;
         dnsPacketsEl.textContent = data.dns;
         attacksEl.textContent = data.attacks;
+        
+        // Update charts
+        updateCharts(data);
     });
     
     socket.on('new_attack', function(data) {
@@ -62,6 +91,14 @@ document.addEventListener('DOMContentLoaded', function() {
         addAttackToTable(data);
         updateStats();
     });
+
+    socket.on('blacklist_updated', function(ips) {
+        console.log('Blacklist updated:', ips);
+        updateBlacklistFromSocket(ips);
+    });
+    
+    // Initialize charts
+    initCharts();
     
     // Initialize
     updateStats();
@@ -138,11 +175,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function addToBlacklist() {
         const ip = ipInput.value.trim();
+        console.log('addToBlacklist called with IP:', ip);
         if (!ip || !isValidIP(ip)) {
             showNotification('Please enter a valid IP address', 'error');
             return;
         }
-        
+
+        console.log('Sending request to add IP:', ip);
         fetch('/add_to_blacklist', {
             method: 'POST',
             headers: {
@@ -150,16 +189,23 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: JSON.stringify({ ip: ip })
         })
-        .then(response => response.json())
+        .then(response => {
+            console.log('Response status:', response.status);
+            return response.json();
+        })
         .then(data => {
+            console.log('Response data:', data);
             if (data.status === 'success') {
                 ipInput.value = '';
-                updateBlacklist();
+                // Don't call updateBlacklist() here - it will be updated via WebSocket
                 showNotification('IP added to blacklist', 'success');
+            } else {
+                showNotification('Failed to add IP', 'error');
             }
         })
         .catch(error => {
             console.error('Error:', error);
+            showNotification('Error adding IP', 'error');
         });
     }
     
@@ -173,7 +219,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => response.json())
         .then(() => {
-            updateBlacklist();
+            // Don't call updateBlacklist() here - it will be updated via WebSocket
             showNotification('IP removed from blacklist', 'success');
         })
         .catch(error => {
@@ -246,26 +292,34 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch('/get_blacklist')
             .then(response => response.json())
             .then(ips => {
-                blacklistTable.innerHTML = `
-                    <tr>
-                        <th>IP Address</th>
-                        <th>Action</th>
-                    </tr>
-                `;
-
-                ips.forEach(ip => {
-                    const row = blacklistTable.insertRow();
-                    const ipCell = row.insertCell();
-                    const actionCell = row.insertCell();
-
-                    ipCell.innerHTML = `<span class="ip-badge">${ip}</span>`;
-                    const removeBtn = document.createElement('span');
-                    removeBtn.className = 'remove-ip';
-                    removeBtn.innerHTML = '<i class="fas fa-trash"></i> Remove';
-                    removeBtn.addEventListener('click', () => removeFromBlacklist(ip));
-                    actionCell.appendChild(removeBtn);
-                });
+                updateBlacklistTable(ips);
             });
+    }
+
+    function updateBlacklistFromSocket(ips) {
+        updateBlacklistTable(ips);
+    }
+
+    function updateBlacklistTable(ips) {
+        blacklistTable.innerHTML = `
+            <tr>
+                <th>IP Address</th>
+                <th>Action</th>
+            </tr>
+        `;
+
+        ips.forEach(ip => {
+            const row = blacklistTable.insertRow();
+            const ipCell = row.insertCell();
+            const actionCell = row.insertCell();
+
+            ipCell.innerHTML = `<span class="ip-badge">${ip}</span>`;
+            const removeBtn = document.createElement('span');
+            removeBtn.className = 'remove-ip';
+            removeBtn.innerHTML = '<i class="fas fa-trash"></i> Remove';
+            removeBtn.addEventListener('click', () => removeFromBlacklist(ip));
+            actionCell.appendChild(removeBtn);
+        });
     }
     
     function addAttackToTable(attack) {
@@ -287,10 +341,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ipCell.innerHTML = `<span class="ip-badge">${attack.src_ip}</span>`;
         detailsCell.textContent = attack.details || 'No details';
         
-        // Remove old rows if more than 20
-        if (attacksTable.rows.length > 21) {
-            attacksTable.deleteRow(1);
-        }
+        // Keep all attacks (no limit)
         
         // Remove highlight animation
         setTimeout(() => {
@@ -374,6 +425,72 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     `;
     document.head.appendChild(style);
+    
+    // Chart functions
+    function initCharts() {
+        // Traffic Chart
+        const trafficCtx = document.getElementById('trafficChart').getContext('2d');
+        trafficChart = new Chart(trafficCtx, {
+            type: 'line',
+            data: trafficData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        
+        // Protocol Chart
+        const protocolCtx = document.getElementById('protocolChart').getContext('2d');
+        protocolChart = new Chart(protocolCtx, {
+            type: 'doughnut',
+            data: protocolData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    }
+    
+    function updateCharts(data) {
+        // Update traffic chart
+        const now = new Date().toLocaleTimeString();
+        trafficData.labels.push(now);
+        trafficData.datasets[0].data.push(data.total_packets);
+        
+        // Keep only last 20 data points
+        if (trafficData.labels.length > 20) {
+            trafficData.labels.shift();
+            trafficData.datasets[0].data.shift();
+        }
+        
+        if (trafficChart) {
+            trafficChart.update();
+        }
+        
+        // Update protocol chart
+        protocolData.datasets[0].data = [data.tcp, data.udp, data.arp, data.dns];
+        
+        if (protocolChart) {
+            protocolChart.update();
+        }
+    }
     
     // Auto-update stats every 5 seconds
     setInterval(updateStats, 5000);

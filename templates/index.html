@@ -7,13 +7,21 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
         <div class="dashboard">
             <div class="header">
-                <h1><i class="fas fa-shield-alt"></i> IDPS Dashboard</h1>
-                <p>Real-time Intrusion Detection & Prevention System</p>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h1><i class="fas fa-shield-alt"></i> IDPS Dashboard</h1>
+                        <p>Real-time Intrusion Detection & Prevention System</p>
+                    </div>
+                    <a href="/logout" class="btn btn-export" style="text-decoration: none;">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </div>
                 <div style="margin-top: 15px;">
                     <span class="status-indicator status-inactive"></span>
                     <span id="statusText">Inactive</span>
@@ -61,6 +69,26 @@
                 <div class="stat-card">
                     <div class="stat-label">Detected Attacks</div>
                     <div class="stat-value" id="attacks">0</div>
+                </div>
+            </div>
+            
+            <div class="charts-section">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-chart-line"></i> Traffic Overview
+                    </div>
+                    <div class="card-body">
+                        <canvas id="trafficChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-chart-pie"></i> Protocol Distribution
+                    </div>
+                    <div class="card-body">
+                        <canvas id="protocolChart"></canvas>
+                    </div>
                 </div>
             </div>
             

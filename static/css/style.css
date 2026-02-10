@@ -128,6 +128,14 @@ body {
     letter-spacing: 1px;
 }
 
+.charts-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 25px;
+    padding: 25px;
+    padding-bottom: 0;
+}
+
 .content-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
